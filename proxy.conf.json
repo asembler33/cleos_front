@@ -1,0 +1,7 @@
+{
+    "/api": {
+      "target": "https://backend.cleosonline.com",
+      "secure": false,
+      "changeOrigin": true
+    }
+  }

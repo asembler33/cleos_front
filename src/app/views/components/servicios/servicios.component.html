@@ -1,0 +1,142 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Lista Servicios</h6>
+                    <button class="btn btn-primary" type="button" (click)="openFormModalServicio(lgModal)">Agregar Servicio</button>
+                    <button class="btn btn-primary  mx-2" type="button"
+                            (click)="openFormModalEspecialidad(content)">Agregar Especialidad</button>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <ngx-datatable class="bootstrap" [rows]="rowsServicios" [loadingIndicator]="loadingIndicator"
+                            [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                            <ngx-datatable-column name="Servicio" prop="servicio"></ngx-datatable-column>
+                            <ngx-datatable-column name="Especialidad" prop="especialidad"></ngx-datatable-column>
+                            <ngx-datatable-column name="Descripción" prop="descripcion"></ngx-datatable-column>
+                            <ngx-datatable-column name="Precio" prop="precio"></ngx-datatable-column>
+
+                            <ngx-datatable-column name="Acciones">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="editServicio(row.id, lgModal)">Editar</button>&nbsp;
+                                    <button class="btn btn-danger"
+                                        (click)="deleteServicio(row.id)">Eliminar</button>&nbsp;
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #lgModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formServicios" class="forms-sample" (ngSubmit)="guardarServicio()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="exampleInputUsername1" class="form-label">Servicio <span class="asterisk">*</span></label>
+                        <input type="text" class="form-control" id="servicio" formControlName="nombreServicio"
+                            name="nombreServicio">
+                            <div class="text-danger mt-1" *ngIf="formServicios.get('nombreServicio').hasError('required') && formServicios.get('nombreServicio').touched">
+                                El nombre de servicio es obligatorio.
+                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1" class="form-label">Especialidad  <span class="asterisk">*</span></label>
+                        <ng-select [items]="especialidadRows" formControlName="especialidad" name="especialidadSelect"
+                            bindLabel="especialidad" bindValue="id" placeholder="Selecione especialidad..." [(ngModel)]="opcionSeleccionada"
+                            [searchable]="false">
+                        </ng-select>
+                        <div class="text-danger mt-1" *ngIf="formServicios.get('especialidad').hasError('required') && formServicios.get('especialidad').touched">
+                            Debe elegir la especialidad.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="exampleInputPassword1" class="form-label">Precio  <span class="asterisk">*</span></label>
+                        <input type="text" class="form-control" formControlName="precio" name="precio">
+                        <div class="text-danger mt-1" *ngIf="formServicios.get('precio').hasError('required') && formServicios.get('precio').touched">
+                            Debe elegir la especialidad.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="duracionSelect" class="form-label">Duración  <span class="asterisk">*</span></label>
+                        <ng-select [items]="duracionRows" formControlName="duracion" name="duracionSelect"
+                            bindLabel="duracion_servicio" bindValue="id" placeholder="Selecione duración..." 
+                            [searchable]="false">
+                        </ng-select>
+                        <div class="text-danger mt-1" *ngIf="formServicios.get('duracion').hasError('required') && formServicios.get('duracion').touched">
+                            Debe elegir la duración.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="exampleInputPassword1" class="form-label">Descripción  <span class="asterisk">*</span></label>
+                        <textarea class="form-control" cols="30" rows="5" formControlName="descripcion"
+                            name="descripcion"></textarea>
+                        <div class="text-danger mt-1" *ngIf="formServicios.get('descripcion').hasError('required') && formServicios.get('descripcion').touched">
+                            La Descripción es obligatoria.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputPassword1" class="form-label">Preparación previa  <span class="asterisk">*</span></label>
+                        <textarea class="form-control" cols="30" rows="5" formControlName="preparacionPrevia"
+                            name="preparacionPrevia"></textarea>
+                        <div class="text-danger mt-1" *ngIf="formServicios.get('preparacionPrevia').hasError('required') && formServicios.get('preparacionPrevia').touched">
+                            La preparación previa es obligatoria.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <input type="hidden" name="idServicio" [value]="idServicio">
+                <button type="submit" class="btn btn-primary me-2" [disabled]="formServicios.invalid">Guardar</button>
+                <button type="button" (click)="limpiarInputs()" class="btn btn-secondary">Limpiar</button>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formEspecialidad" (ngSubmit)="saveEspecialidad()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Especialidad</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="especialidad" name="especialidad">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="hidden" #idProfesion name="idEspecialidad" [value]="idEspecialidad">
+                        <button type="submit" class="btn btn-outline-dark"
+                            [disabled]="formEspecialidad.invalid">{{titleActionForm}}</button>
+                    </div>
+                </div>
+                <ngx-datatable class="bootstrap" [rows]="especialidadRows" [loadingIndicator]="loadingIndicator"
+                    [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                    <ngx-datatable-column name="Especialidad" prop="especialidad"></ngx-datatable-column>
+                    <ngx-datatable-column name="Acciones">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <button type="button" class="btn btn-primary" (click)="editEspecialidad(row.id)">Editar</button>&nbsp;
+                            <button type="button" class="btn btn-danger" (click)="deleteEspecialidad(row.id)">Eliminar</button>&nbsp;
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </form>
+    </ng-template>
+</div>

@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Listado Roles</h6>
+                    <button class="btn btn-primary" type="button" (click)="openFormModalRol(content)">Agregar Rol</button>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <ngx-datatable class="bootstrap" [rows]="rowsRol" [loadingIndicator]="loadingIndicator" 
+                            [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                            <ngx-datatable-column name="Rol" prop="nombre_rol"></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="editRol(row.id, content)">Editar</button>&nbsp;
+                                    <button class="btn btn-danger" (click)="deleteRol(row.id)">Eliminar</button>&nbsp;
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title_roles }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formRoles" (ngSubmit)="saveRol()">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="dateOfBirth">Rol</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="rol" name="rol">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" #idRol name="idRol" [value]="idRol">
+                <button type="submit" class="btn btn-outline-dark" [disabled]="formRoles.invalid">{{titleActionForm}}</button>
+            </div>
+        </form>
+    </ng-template>
+</div>

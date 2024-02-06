@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Lista Especialidades</h6>
+                    <button class="btn btn-primary" type="button" (click)="open(content)">Agregar Especialidad</button>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <ngx-datatable class="bootstrap" [rows]="rows" [loadingIndicator]="loadingIndicator"
+                            [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                            <ngx-datatable-column name="Especialidad" prop="especialidad"></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="editEspecialidad(row.id, content, row.especialidad)">Editar</button>&nbsp;
+                                    <button class="btn btn-danger" (click)="deleteEspecialidad(row.id)">Eliminar</button>&nbsp;
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title_especialidades }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formEspecialidad" (ngSubmit)="saveEspecialidad()">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="dateOfBirth">Especialidad</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="especialidad" name="especialidad">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" #idEspecialidad name="idEspecialidad" [value]="idEspecialidad">
+                <button type="submit" class="btn btn-outline-dark" [disabled]="formEspecialidad.invalid">{{titleActionForm}}</button>
+            </div>
+        </form>
+    </ng-template>
+</div>

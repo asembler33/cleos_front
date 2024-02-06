@@ -1,0 +1,210 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Lista Trabajadores</h6>
+                    <div class="example">
+                        <button class="btn btn-primary  mx-2" type="button"
+                            (click)="openFormModalTrabajadores(lgModal)">Agregar Trabajador</button>
+                        <button class="btn btn-primary  mx-2" type="button"
+                            (click)="openFormModalProfesion(content)">Agregar Profesión</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <ngx-datatable class="bootstrap" [rows]="rowsTrabajador" [loadingIndicator]="loadingIndicator"
+                            [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                            <ngx-datatable-column name="Imagen" prop="avatar">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <img [src]="devuelveImagen(row.avatar)" alt="Profile" style="-border-radius: 50%; width: 50px; height: 50px;"> 
+                                  </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Usuario" prop="username"></ngx-datatable-column>
+                            <ngx-datatable-column name="Nombre Completo">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{ row.nombres }} {{ row.apellido_paterno }} 
+                                  </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Rol" prop="nombre_rol"></ngx-datatable-column>
+                            <ngx-datatable-column name="Correo" prop="email"></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary"
+                                        (click)="editTrabajadores(row.id, lgModal)">Editar</button>&nbsp;
+                                    <button class="btn btn-danger"
+                                        (click)="deleteTrabajadores(row.id)">Eliminar</button>&nbsp;
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #lgModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formTrabajadores" (ngSubmit)="saveTrabajador()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Imagen</label>
+                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
+                        <img *ngIf="mostrarMiniatura" src="{{ avatar }}" style="-border-radius: 50%; width: 100px; height: 100px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nombres">Firma</label>
+                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Usuario</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="usuario" name="usuario">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nombres">Clave</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" formControlName="clave" name="clave">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">RUT</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="rut" name="rut">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nombres">Nombres</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="nombres" name="nombres">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Ap. Paterno</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="paterno" name="paterno">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Ap. Materno</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="materno" name="materno">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Dirección</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="direccion" name="direccion">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Teléfono</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="telefono" name="telefono">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Correo</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="correo" name="correo">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Rol</label>
+                        <ng-select [items]="rolesRows" formControlName="rol" name="rol" bindLabel="nombre_rol"
+                            bindValue="id" placeholder="Selecione Rol..." [searchable]="false">
+                        </ng-select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Profesión</label>
+                        <ng-select [items]="arrayProfesiones" formControlName="profesiones" name="profesionesSelect"
+                            bindLabel="profesion" bindValue="id" placeholder="Selecione profesión..." [searchable]="false">
+                        </ng-select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">¿Prestador de servicio?</label>
+                        <div class="input-group">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" formControlName="prestadorServicio"
+                                    name="prestadorServicio" id="radioInlineSelected" value="Si">
+                                <label class="form-check-label" for="radioInlineSelected">
+                                    Sí
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" formControlName="prestadorServicio"
+                                    name="prestadorServicio" id="radioInlineDisabled" value="No">
+                                <label class="form-check-label" for="radioInlineDisabled">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" #idTrabajador name="idTrabajador" [value]="idTrabajador">
+                <button type="submit" class="btn btn-outline-dark"
+                    [disabled]="formTrabajadores.invalid">{{titleActionForm}}</button>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formProfesion" (ngSubmit)="saveProfesion()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Profesión</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="profesion" name="profesion">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="hidden" #idProfesion name="idProfesion" [value]="idProfesion">
+                        <button type="submit" class="btn btn-outline-dark"
+                            [disabled]="formProfesion.invalid">{{titleActionForm}}</button>
+                    </div>
+                </div>
+                <ngx-datatable class="bootstrap" [rows]="rowsProfesiones" [loadingIndicator]="loadingIndicator"
+                    [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                    <ngx-datatable-column name="Profesión" prop="profesion"></ngx-datatable-column>
+                    <ngx-datatable-column name="Acciones">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <button type="button" class="btn btn-primary" (click)="editProfesion(row.id)">Editar</button>&nbsp;
+                            <button type="button" class="btn btn-danger" (click)="deleteProfesion(row.id)">Eliminar</button>&nbsp;
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </form>
+    </ng-template>
+</div>

@@ -1,0 +1,119 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Lista Sucursales</h6>
+                    <button class="btn btn-primary" type="button" (click)="abrirFormModalSucursal(content)">Agregar Sucursal</button>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <ngx-datatable class="bootstrap" [rows]="rowsSucursales" [loadingIndicator]="loadingIndicator"
+                            [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                            <ngx-datatable-column name="Sucursal" prop="nombre_sucursal"></ngx-datatable-column>
+                            <!-- <ngx-datatable-column name="Oficina" prop="box"></ngx-datatable-column> -->
+                            <ngx-datatable-column name="Dirección" prop="direccion"></ngx-datatable-column>
+                            <ngx-datatable-column name="Teléfono" prop="telefono"></ngx-datatable-column>
+
+                            <ngx-datatable-column name="Acciones">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="editSucursal(row.id, content)">Editar</button>&nbsp;
+                                    <button class="btn btn-danger" (click)="deleteSucursal(row.id)">Eliminar</button>&nbsp;
+                                    <button class="btn btn-danger" (click)="openFormModalBox(row.id)">Box</button>&nbsp;
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title_sucursal }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formSucursales" (ngSubmit)="saveSucursal()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                      <label for="dateOfBirth">Nombre Sucursal</label>
+                      <div class="input-group">
+                          <input type="text" class="form-control" formControlName="sucursal" name="sucursal" id="sucursal">
+                      </div>
+                      <div class="text-danger mt-1" *ngIf="formSucursales.get('sucursal')?.hasError('required') && formSucursales?.get('sucursal')?.touched">
+                        El nombre de sucursal es obligatorio.
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Región</label>
+                        <ng-select [items]="regionesRows" formControlName="regionesRows" name="regionesRows" bindLabel="region" bindValue="id"
+                        placeholder="Selecione región..." (ngModelChange)="onRegionSelected($event)"
+                              [searchable]="false">
+                            </ng-select>
+                        <div class="text-danger mt-1" *ngIf="formSucursales.get('regionesRows')?.hasError('required') && formSucursales?.get('regionesRows')?.touched">
+                            La región es obligatoria.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Comuna</label>
+                        <ng-select [items]="comunasRows" formControlName="comuna" name="comuna" bindLabel="comuna" bindValue="id"
+                        placeholder="Selecione comuna..."
+                              [searchable]="false">
+                            </ng-select>
+                        <div class="text-danger mt-1" *ngIf="formSucursales.get('comuna')?.hasError('required') && formSucursales?.get('comuna')?.touched">
+                            La región es obligatoria.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Dirección</label>
+                        <input type="text" class="form-control" formControlName="direccion" name="direccion">
+                        <div class="text-danger mt-1" *ngIf="formSucursales.get('direccion')?.hasError('required') && formSucursales?.get('direccion')?.touched">
+                            La dirección es obligatoria.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <!-- <div class="col-md-6">
+                        <label for="dateOfBirth">Oficina (Opcional)</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="numeroBox" name="numeroBox">
+                        </div>
+                    </div> -->
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Teléfono</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="telefono" name="telefono">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formSucursales.get('telefono')?.hasError('required') && formSucursales?.get('telefono')?.touched">
+                            El teléfono es obligatorio.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Correo</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="correo" name="correo">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formSucursales.get('correo')?.hasError('required') && formSucursales?.get('correo')?.touched">
+                            El correo es obligatorio.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" #idSucursal name="idSucursal" [value]="idSucursal">
+                <button type="submit" class="btn btn-outline-dark" [disabled]="formSucursales.invalid">{{titleActionForm}}</button>
+            </div>
+        </form>
+    </ng-template>
+    <!-- COMPONENTE BOX -->
+    <!-- <app-box></app-box> -->
+</div>
+

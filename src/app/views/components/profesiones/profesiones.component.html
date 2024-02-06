@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Lista Profesiones</h6>
+                    <button class="btn btn-primary" type="button" (click)="openFormModalProfesion(content)">Agregar Profesión</button>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <ngx-datatable class="bootstrap" [rows]="rowsProfesiones" [loadingIndicator]="loadingIndicator"
+                            [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                            <ngx-datatable-column name="Profesiones" prop="profesion"></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="editProfesion(row.id, content)">Editar</button>&nbsp;
+                                    <button class="btn btn-danger" (click)="deleteProfesion(row.id)">Eliminar</button>&nbsp;
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title_profesiones }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <form [formGroup]="formProfesiones" (ngSubmit)="saveProfesion()">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="dateOfBirth">Profesión</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="profesion" name="profesion">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" #idProfesion name="idProfesion" [value]="idProfesion">
+                <button type="submit" class="btn btn-outline-dark" [disabled]="formProfesiones.invalid">{{titleActionForm}}</button>
+            </div>
+        </form>
+    </ng-template>
+</div>

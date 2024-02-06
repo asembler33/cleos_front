@@ -1,0 +1,83 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal()"></button>
+    </div>
+    <form [formGroup]="formBox" (ngSubmit)="saveBox()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="dateOfBirth">Nombre Box <span class="asterisk">*</span></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="nombreBox" name="nombreBox">
+                    </div>
+                    <div class="text-danger mt-1" *ngIf="formBox.get('nombreBox')?.hasError('required') && formBox?.get('nombreBox')?.touched">
+                        El nombre de sucursal es obligatorio.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="dateOfBirth">N° Box <span class="asterisk">*</span></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="numeroBox" name="numeroBox">
+                    </div>
+                    <div class="text-danger mt-1" *ngIf="formBox.get('numeroBox')?.hasError('required') && formBox?.get('numeroBox')?.touched">
+                        El N° Box es obligatorio.
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="dateOfBirth">Piso <span class="asterisk">*</span></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="piso" name="piso">
+                    </div>
+                    <div class="text-danger mt-1" *ngIf="formBox.get('piso')?.hasError('required') && formBox?.get('piso')?.touched">
+                        El piso es obligatorio.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="dateOfBirth">Contacto</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="contacto" name="contacto">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="dateOfBirth">Detalles</label>
+                    <div class="input-group">
+                        <textarea class="form-control" formControlName="detalle" name="detalle"></textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="hidden" formControlName="idSucursalOrigen" name="idSucursalOrigen" [value]="idSucursalOrigen">
+                    <input type="hidden" formControlName="idBox" name="idBox" [value]="idBox">
+                    <button type="submit" class="btn btn-outline-dark"
+                        [disabled]="formBox.invalid">{{titleActionForm}}</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ngx-datatable class="bootstrap" [rows]="rowsBoxes" [loadingIndicator]="loadingIndicator"
+                        [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                        <ngx-datatable-column name="Nombre Box" prop="nombre_box"></ngx-datatable-column>
+                        <ngx-datatable-column name="N° Box" prop="numero_box"></ngx-datatable-column>
+                        <ngx-datatable-column name="Contacto" prop="contacto"></ngx-datatable-column>
+                        <ngx-datatable-column name="Acciones">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <button type="button" class="btn btn-primary" (click)="editBox(row.id)">Editar</button>
+                                <button type="button" class="btn btn-danger" (click)="deleteBox(row.id)">Eliminar</button>&nbsp;
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- </ng-template> -->

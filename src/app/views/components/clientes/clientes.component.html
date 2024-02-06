@@ -1,0 +1,133 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Lista Clientes</h6>
+                    <button class="btn btn-primary" type="button" (click)="openFormModalClientes(content)">Agregar Cliente</button>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <ngx-datatable class="bootstrap" [rows]="rowsClientes" [loadingIndicator]="loadingIndicator"
+                            [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
+                            <ngx-datatable-column name="Nombre Completo" prop="nombre_completo"></ngx-datatable-column>
+                            <ngx-datatable-column name="Edad" prop="edad"></ngx-datatable-column>
+                            <ngx-datatable-column name="Telefono" prop="telefono"></ngx-datatable-column>
+                            <ngx-datatable-column name="Correo" prop="correo"></ngx-datatable-column>
+                            <ngx-datatable-column name="Acciones">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <button class="btn btn-primary" (click)="editCliente(row.id, content)">Editar</button>&nbsp;
+                                    <button class="btn btn-danger" (click)="deleteCliente(row.id)">Eliminar</button>&nbsp;
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+        <form [formGroup]="formCliente" (ngSubmit)="saveCliente()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">RUT</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="rut" name="rut">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('rut')?.hasError('required') && formCliente?.get('rut')?.touched">
+                            El RUT es obligatorio.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nombres">Nombres</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="nombres" name="nombres">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('nombres')?.hasError('required') && formCliente?.get('nombres')?.touched">
+                            El nombre es obligatorio.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Ap. Paterno</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="paterno" name="paterno">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('paterno')?.hasError('required') && formCliente?.get('paterno')?.touched">
+                            El apellido paterno es obligatorio.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Ap. Materno</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="materno" name="materno">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('materno')?.hasError('required') && formCliente?.get('materno')?.touched">
+                            El apellido materno es obligatorio.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Fecha de Nacimiento</label>
+                        <div class="input-group">
+                            <input class="form-control" formControlName="fechaNacimiento" name="fechaNacimiento"
+                                [(ngModel)]="fechaSeleccionada" 
+                                placeholder="" name="dp" 
+                                [navigation]="formatoFecha"
+                                ngbDatepicker #d="ngbDatepicker">
+                                <button class="input-group-text" type="button" (click)="d.toggle()">
+                                <i class="feather icon-calendar icon-md text-muted"></i>
+                            </button>
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('materno')?.hasError('required') && formCliente?.get('materno')?.touched">
+                            La fecha de nacimiento es obligatorio.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Dirección</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="direccion" name="direccion">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('direccion')?.hasError('required') && formCliente?.get('direccion')?.touched">
+                            La dirección es obligatoria.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Teléfono</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="telefono" name="telefono">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('telefono')?.hasError('required') && formCliente?.get('telefono')?.touched">
+                            El teléfono es obligatorio.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Correo</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="correo" name="correo">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formCliente.get('correo')?.hasError('required') && formCliente?.get('correo')?.touched">
+                            El correo es obligatorio.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" #idCliente name="idCliente" [value]="idCliente"> 
+                <button type="submit" class="btn btn-outline-dark" [disabled]="formCliente.invalid">{{titleActionForm}}</button>
+            </div>
+        </form>
+    </ng-template>
+</div>
