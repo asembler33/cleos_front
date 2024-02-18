@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, LOCALE_ID } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { NgbCalendar, NgbDateAdapter, NgbModal, NgbModalRef,NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbDateStruct, NgbDateParserFormatter  } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDatepickerModule, NgbDateStruct, NgbDatepickerI18n  } from '@ng-bootstrap/ng-bootstrap';
 import { modalOptions } from '../../../common/modal-options';
 import { ClientesService } from 'src/app/services/clientes.service';
 import Swal from 'sweetalert2/dist/sweetalert2.all.js';
+import { CustomDatepickerI18n } from './calendar.component';
+
+
+
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.scss']
+  styleUrls: ['../../../app.component.scss']
 })
 export class ClientesComponent implements OnInit {
 
@@ -31,6 +36,8 @@ export class ClientesComponent implements OnInit {
   fechaSeleccionada: NgbDateStruct;
   fechaActual: NgbDateStruct;
   formatoFecha: any = { day: '2-digit' , month: '2-digit', year: 'numeric' };
+  today = inject(NgbCalendar).getToday();
+  date: { year: number; month: number };
   // formatoFecha: NgbDateStruct = {
   //   day: 'd',    // Representa el día sin ceros iniciales (1 en lugar de 01)
   //   month: 'M',  // Representa el mes sin ceros iniciales (1 en lugar de 01)

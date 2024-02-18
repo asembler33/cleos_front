@@ -16,24 +16,17 @@ export class ConectionCleosService {
   }
   
   public deleteEspecialidad(id: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json'});
-    return this.http.delete((environment as any).URL_API+`/especialidades/${id}`, {headers: headers});
+    
+    return this.http.delete((environment as any).URL_API+`/especialidades/${id}`);
   }
   
   public updateEspecialidad(id: any, data:any): Observable<any> {
-    // const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'withCredentials': 'true' });
-    const options = {
-      withCredentials: true
-    };
     
-    return this.http.put((environment as any).URL_API+`/especialidades/${id}`,data, options);
+    return this.http.put((environment as any).URL_API+`/especialidades/${id}`,data);
   }
 
   public saveEspecialidad(data: any): Observable<any> {
     
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
     return this.http.post((environment as any).URL_API+'/especialidades', data);
   }
 

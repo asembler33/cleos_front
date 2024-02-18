@@ -35,7 +35,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">RUT</label>
+                        <label for="dateOfBirth">RUT <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="rut" name="rut">
                         </div>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="nombres">Nombres</label>
+                        <label for="nombres">Nombres <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="nombres" name="nombres">
                         </div>
@@ -56,7 +56,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Ap. Paterno</label>
+                        <label for="dateOfBirth">Ap. Paterno <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="paterno" name="paterno">
                         </div>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Ap. Materno</label>
+                        <label for="dateOfBirth">Ap. Materno <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="materno" name="materno">
                         </div>
@@ -77,13 +77,13 @@
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Fecha de Nacimiento</label>
+                        <label for="dateOfBirth">Fecha de Nacimiento <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input class="form-control" formControlName="fechaNacimiento" name="fechaNacimiento"
                                 [(ngModel)]="fechaSeleccionada" 
-                                placeholder="" name="dp" 
-                                [navigation]="formatoFecha"
-                                ngbDatepicker #d="ngbDatepicker">
+                                placeholder="" name="dp"                                
+                                ngbDatepicker #d="ngbDatepicker"
+                                (navigate)="date = $event.next">
                                 <button class="input-group-text" type="button" (click)="d.toggle()">
                                 <i class="feather icon-calendar icon-md text-muted"></i>
                             </button>
@@ -105,7 +105,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Teléfono</label>
+                        <label for="dateOfBirth">Teléfono <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="telefono" name="telefono">
                         </div>
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Correo</label>
+                        <label for="dateOfBirth">Correo <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="correo" name="correo">
                         </div>
@@ -123,6 +123,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <br>
+            <div class="row">
             </div>
             <div class="modal-footer">
                 <input type="hidden" #idCliente name="idCliente" [value]="idCliente"> 

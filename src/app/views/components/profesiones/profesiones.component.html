@@ -26,12 +26,12 @@
     <ng-template #content let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">{{ title_profesiones }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            <button type="button" class="btn-close" aria-label="Close" (click)="cerrarFormModalProfesion()"></button>
         </div>
         <form [formGroup]="formProfesiones" (ngSubmit)="saveProfesion()">
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="dateOfBirth">Profesión</label>
+                    <label for="dateOfBirth">Profesión <span class="asterisk">*</span></label>
                     <div class="input-group">
                         <input type="text" class="form-control" formControlName="profesion" name="profesion">
                     </div>

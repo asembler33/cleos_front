@@ -12,7 +12,7 @@ import { BoxComponent } from '../box/box.component';
 @Component({
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
-  styleUrls: ['./sucursales.component.scss']
+  styleUrls: ['../../../app.component.scss']
 })
 export class SucursalesComponent implements OnInit {
 
@@ -77,7 +77,7 @@ export class SucursalesComponent implements OnInit {
       this.formSucursales.get('correo')?.setValue( data.correo );
 
     });
-    this.modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalRef = this.modalService.open(content, modalOptions);
 
   }
 

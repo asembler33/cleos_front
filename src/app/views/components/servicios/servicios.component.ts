@@ -22,7 +22,7 @@ interface iServicios {
 @Component({
   selector: 'app-servicios',
   templateUrl: './servicios.component.html',
-  styleUrls: ['./servicios.component.scss']
+  styleUrls: ['../../../app.component.scss']
 })
 export class ServiciosComponent implements OnInit{
 
@@ -34,7 +34,8 @@ export class ServiciosComponent implements OnInit{
   data$: Observable<any[]>;
   title:string;
   previousData: any[] = [];
-  modalRef: NgbModalRef;
+  modalRefServicio: NgbModalRef;
+  modalRefEspecialidad: NgbModalRef;
   formServicios: any;
   formEspecialidad: any;
   especialidadRows: any;
@@ -103,7 +104,7 @@ export class ServiciosComponent implements OnInit{
     }
 
     this.formServicios.reset();  
-    this.modalRef.close(); 
+    this.modalRefServicio.close(); 
     
   }
 
@@ -112,7 +113,7 @@ export class ServiciosComponent implements OnInit{
     this.title = 'Editar Servicio';
     this.titleActionForm = 'Editar';
     
-		this.modalRef = this.modalService.open(content, modalOptions);
+		this.modalRefServicio = this.modalService.open(content, modalOptions);
     this.apiCleos.getServicio(row).subscribe( data => {
         // console.log(data);
         this.idServicio = data.id;
@@ -155,8 +156,8 @@ export class ServiciosComponent implements OnInit{
   getServicios(){
 
     this.apiCleos.listServicios().subscribe(data => {
-      
-      this.rowsServicios =data;
+      console.log(data);
+      this.rowsServicios=data;
       
     });
 
@@ -228,7 +229,7 @@ export class ServiciosComponent implements OnInit{
 
     this.title = 'Especialidades';
     this.titleActionForm = 'Grabar';
-		this.modalRef = this.modalService.open(content, modalOptions);
+		this.modalRefEspecialidad = this.modalService.open(content, modalOptions);
     
   }
 
@@ -236,14 +237,24 @@ export class ServiciosComponent implements OnInit{
 
     this.title = 'Servicio';
     this.titleActionForm = 'Grabar';
-		this.modalRef = this.modalService.open(content, modalOptions);
+		this.modalRefServicio = this.modalService.open(content, modalOptions);
 
   }
 
   limpiarInputs():void {
+    this.formServicios.reset();
+  }
+
+  cerrarFormModalEspecialidad():void {
+
+    this.formEspecialidad.reset();
+    this.modalRefEspecialidad.close();
+  }
+
+  cerrarFormModalServicio():void {
 
     this.formServicios.reset();
-
+    this.modalRefServicio.close();
   }
 
 }

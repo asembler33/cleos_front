@@ -33,7 +33,7 @@
     <ng-template #lgModal let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            <button type="button" class="btn-close" aria-label="Close" (click)="cerrarFormModalServicio()"></button>
         </div>
         <form [formGroup]="formServicios" class="forms-sample" (ngSubmit)="guardarServicio()">
             <div class="modal-body">
@@ -106,7 +106,7 @@
     <ng-template #content let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            <button type="button" class="btn-close" aria-label="Close" (click)="cerrarFormModalEspecialidad()"></button>
         </div>
         <form [formGroup]="formEspecialidad" (ngSubmit)="saveEspecialidad()">
             <div class="modal-body">

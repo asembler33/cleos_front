@@ -358,6 +358,11 @@ export const MENU: MenuItem[] = [
     icon: 'home',
     link: '/cleos/trabajadores/',
   },
+  {
+    label: 'Agenda',
+    icon: 'home',
+    link: '/cleos/agendamiento/',
+  },
   
 
 

@@ -9,7 +9,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.all.js';
 @Component({
   selector: 'app-profesiones',
   templateUrl: './profesiones.component.html',
-  styleUrls: ['./profesiones.component.scss']
+  styleUrls: ['../../../app.component.scss']
 })
 export class ProfesionesComponent implements OnInit {
 
@@ -86,6 +86,7 @@ export class ProfesionesComponent implements OnInit {
           console.log(data);
           this.rowsProfesiones = [...this.rowsProfesiones];
         });
+        this.formProfesiones.reset();
       }
 
     })
@@ -112,6 +113,14 @@ export class ProfesionesComponent implements OnInit {
       this.formProfesiones.reset();
       this.modalRef.close();
     }
+
+  }
+
+  cerrarFormModalProfesion(): void {
+
+
+    this.formProfesiones.reset();
+    this.modalRef.close();
 
   }
 

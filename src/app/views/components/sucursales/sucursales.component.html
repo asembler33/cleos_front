@@ -37,7 +37,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                      <label for="dateOfBirth">Nombre Sucursal</label>
+                      <label for="dateOfBirth">Nombre Sucursal <span class="asterisk">*</span></label>
                       <div class="input-group">
                           <input type="text" class="form-control" formControlName="sucursal" name="sucursal" id="sucursal">
                       </div>
@@ -46,7 +46,7 @@
                       </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Región</label>
+                        <label for="dateOfBirth">Región <span class="asterisk">*</span></label>
                         <ng-select [items]="regionesRows" formControlName="regionesRows" name="regionesRows" bindLabel="region" bindValue="id"
                         placeholder="Selecione región..." (ngModelChange)="onRegionSelected($event)"
                               [searchable]="false">
@@ -59,7 +59,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Comuna</label>
+                        <label for="dateOfBirth">Comuna <span class="asterisk">*</span></label>
                         <ng-select [items]="comunasRows" formControlName="comuna" name="comuna" bindLabel="comuna" bindValue="id"
                         placeholder="Selecione comuna..."
                               [searchable]="false">
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Dirección</label>
+                        <label for="dateOfBirth">Dirección <span class="asterisk">*</span></label>
                         <input type="text" class="form-control" formControlName="direccion" name="direccion">
                         <div class="text-danger mt-1" *ngIf="formSucursales.get('direccion')?.hasError('required') && formSucursales?.get('direccion')?.touched">
                             La dirección es obligatoria.
@@ -85,7 +85,7 @@
                         </div>
                     </div> -->
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Teléfono</label>
+                        <label for="dateOfBirth">Teléfono <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="telefono" name="telefono">
                         </div>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Correo</label>
+                        <label for="dateOfBirth">Correo <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="correo" name="correo">
                         </div>

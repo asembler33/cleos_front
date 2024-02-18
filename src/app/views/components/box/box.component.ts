@@ -10,7 +10,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.all.js';
 @Component({
   selector: 'app-box',
   templateUrl: './box.component.html',
-  styleUrls: ['./box.component.scss']
+  styleUrls: ['../../../app.component.scss']
 })
 
 export class BoxComponent implements OnInit {
@@ -101,6 +101,9 @@ export class BoxComponent implements OnInit {
         this.apiBox.deleteBox(row).subscribe(data => {
           this.rowsBoxes = [...this.rowsBoxes];
         });
+
+        this.formBox.reset();
+
       }
     })
   }

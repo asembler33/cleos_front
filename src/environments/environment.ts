@@ -6,7 +6,9 @@
 export const environment = {
   production: false,
   URL_API : "http://127.0.0.1:8000/api",
+  // URL_API : "https://backend.cleosonline.com/api",
   URL_IMAGE : "http://127.0.0.1:8000/"
+  // URL_IMAGE : "https://backend.cleosonline.com/"
 };
 
 /*
