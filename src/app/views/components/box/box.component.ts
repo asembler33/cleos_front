@@ -68,7 +68,6 @@ export class BoxComponent implements OnInit {
     this.titleActionForm = 'Editar';
     
     this.apiBox.getBox(row).subscribe(data => {
-      console.log(data);
       
       this.formBox.get('nombreBox')?.setValue( data.nombre_box );
       this.formBox.get('numeroBox')?.setValue( data.numero_box );
@@ -76,7 +75,7 @@ export class BoxComponent implements OnInit {
       this.formBox.get('contacto')?.setValue( data.contacto );
       this.formBox.get('detalle')?.setValue( data.detalle );
       this.formBox.get('idBox')?.setValue( data.id);
-
+      this.formBox.get('idSucursalOrigen')?.setValue(this.idSucursalOrigen);
     });
     
   }
@@ -113,15 +112,12 @@ export class BoxComponent implements OnInit {
     if ( this.titleActionForm === 'Grabar'){
 
       this.apiBox.saveBox(this.formBox.value).subscribe(data => {
-
         this.rowsBoxes = [...data];
       });
 
     }else{   
       
-      console.log(this.formBox.value);
       this.apiBox.updateBox(this.formBox.value, this.formBox.get('idBox')?.value).subscribe(data => {
-    
         this.rowsBoxes = [...data];
       });
     }

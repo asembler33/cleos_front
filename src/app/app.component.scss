@@ -1,3 +1,15 @@
+/* Importa los estilos de Material Design Icons */
+@import '@mdi/font/css/materialdesignicons.css';
+
 .asterisk {
     color: red;
   }
+
+.size-18{
+    width: 24px;
+    height: 24px;
+}
+
+.icono-mdi {
+  font-size: 20px; /* Ajusta el tamaño según tus necesidades */
+}

@@ -103,6 +103,7 @@ export class SucursalesComponent implements OnInit {
             this.rowsSucursales.splice(index, 1);
 
             this.rowsSucursales = [...this.rowsSucursales];
+            console.log(this.rowsSucursales);
           }else{
 
             Swal.fire({

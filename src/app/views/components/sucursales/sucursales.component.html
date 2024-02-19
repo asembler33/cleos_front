@@ -12,14 +12,18 @@
                             [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
                             <ngx-datatable-column name="Sucursal" prop="nombre_sucursal"></ngx-datatable-column>
                             <!-- <ngx-datatable-column name="Oficina" prop="box"></ngx-datatable-column> -->
+                            <ngx-datatable-column name="Region" prop="region"></ngx-datatable-column>
+                            <ngx-datatable-column name="Comuna" prop="comuna"></ngx-datatable-column>
                             <ngx-datatable-column name="Dirección" prop="direccion"></ngx-datatable-column>
                             <ngx-datatable-column name="Teléfono" prop="telefono"></ngx-datatable-column>
 
                             <ngx-datatable-column name="Acciones">
                                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                                    <button class="btn btn-primary" (click)="editSucursal(row.id, content)">Editar</button>&nbsp;
-                                    <button class="btn btn-danger" (click)="deleteSucursal(row.id)">Eliminar</button>&nbsp;
-                                    <button class="btn btn-danger" (click)="openFormModalBox(row.id)">Box</button>&nbsp;
+                                    <i class="icono-mdi mdi mdi-pencil" (click)="editSucursal(row.id, content)"></i>&nbsp;
+                                    <i class="icono-mdi mdi mdi-delete-forever" (click)="deleteSucursal(row.id)"></i>&nbsp;
+                                    <i class="icono-mdi mdi mdi-login" (click)="openFormModalBox(row.id)"></i>&nbsp;
+                                    <!-- <button class="btn btn-danger" (click)="deleteSucursal(row.id)">Eliminar</button>&nbsp; -->
+                                    <!-- <button class="btn btn-danger" (click)="openFormModalBox(row.id)">Box</button>&nbsp; -->
                                 </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>

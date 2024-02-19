@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { NgbDateAdapter, NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbModal, NgbModalRef, NgbModalOptions, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDatepickerModule, NgbDateStruct, NgbDatepickerI18n  } from '@ng-bootstrap/ng-bootstrap';
@@ -38,15 +38,12 @@ export class ClientesComponent implements OnInit {
   formatoFecha: any = { day: '2-digit' , month: '2-digit', year: 'numeric' };
   today = inject(NgbCalendar).getToday();
   date: { year: number; month: number };
-  // formatoFecha: NgbDateStruct = {
-  //   day: 'd',    // Representa el día sin ceros iniciales (1 en lugar de 01)
-  //   month: 'M',  // Representa el mes sin ceros iniciales (1 en lugar de 01)
-  //   year: 'y',   // Representa el año con 2 dígitos (21 en lugar de 2021)
-  // };
+  fechaMinima: NgbDate;
   
 
   constructor(private ngbCalendar: NgbCalendar, private modalService: NgbModal,private apiCleos: ClientesService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private dateAdapter: NgbDateAdapter<string>) {
-      
+    
+    this.fechaMinima = new NgbDate(1900, 1, 1);
     this.fechaSeleccionada = this.ngbCalendar.getToday();
   }
 
@@ -67,6 +64,8 @@ export class ClientesComponent implements OnInit {
       console.log(data);
       this.rowsClientes =  data;
     });
+
+
 
   }
 
@@ -134,12 +133,15 @@ export class ClientesComponent implements OnInit {
 
     if (this.formCliente.valid) {
 
+      const dia = this.formCliente.get('fechaNacimiento')?.value.day;
+      const mes = this.formCliente.get('fechaNacimiento')?.value.month;
+      const ano = this.formCliente.get('fechaNacimiento')?.value.year;
+
+      
+      this.formCliente.get('fecha_nacimiento')?.setValue( ano+'-'+mes+'-'+dia);
+
       if ( this.titleActionForm === 'Grabar'){
 
-        let dia = this.formCliente.get('fechaNacimiento')?.value.day;
-        let mes = this.formCliente.get('fechaNacimiento')?.value.month;
-        let ano = this.formCliente.get('fechaNacimiento')?.value.year;
-        
         const formData = new FormData();
         const valueForms = this.formCliente.value;
         
@@ -149,6 +151,7 @@ export class ClientesComponent implements OnInit {
         formData.append("materno", valueForms.materno);
         formData.append("fecha_nacimiento",ano+'-'+mes+'-'+dia);
         formData.append("telefono",valueForms.telefono);
+        formData.append("direccion",valueForms.direccion);
         formData.append("correo",valueForms.correo);
         
         const formDataJson:any = {};
@@ -163,6 +166,10 @@ export class ClientesComponent implements OnInit {
 
       }else{
         
+        // this.formCliente.get('fecha_nacimiento')?.setValue( ano+'-'+mes+'-'+dia);
+        // console.log(this.formCliente.get('fecha_nacimiento')?.value);
+        // console.log(this.formCliente.value);
+
         this.apiCleos.updateCliente(this.formCliente.value, this.idCliente).subscribe(data => {
           this.rowsClientes = [...data];
         });

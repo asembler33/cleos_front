@@ -83,6 +83,7 @@
                                 [(ngModel)]="fechaSeleccionada" 
                                 placeholder="" name="dp"                                
                                 ngbDatepicker #d="ngbDatepicker"
+                                [minDate]="fechaMinima"
                                 (navigate)="date = $event.next">
                                 <button class="input-group-text" type="button" (click)="d.toggle()">
                                 <i class="feather icon-calendar icon-md text-muted"></i>
