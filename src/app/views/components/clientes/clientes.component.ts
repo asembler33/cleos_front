@@ -43,7 +43,8 @@ export class ClientesComponent implements OnInit {
 
   constructor(private ngbCalendar: NgbCalendar, private modalService: NgbModal,private apiCleos: ClientesService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private dateAdapter: NgbDateAdapter<string>) {
     
-    this.fechaMinima = new NgbDate(1900, 1, 1);
+    this.fechaMinima = new NgbDate(1,1,1900);
+    // this.fechaMinima = {day:1, month: 1,year: 1900};
     this.fechaSeleccionada = this.ngbCalendar.getToday();
   }
 
@@ -136,41 +137,34 @@ export class ClientesComponent implements OnInit {
       const dia = this.formCliente.get('fechaNacimiento')?.value.day;
       const mes = this.formCliente.get('fechaNacimiento')?.value.month;
       const ano = this.formCliente.get('fechaNacimiento')?.value.year;
-
       
       this.formCliente.get('fecha_nacimiento')?.setValue( ano+'-'+mes+'-'+dia);
 
+      const formData = new FormData();
+      const valueForms = this.formCliente.value;
+        
+      formData.append("rut", valueForms.rut);
+      formData.append("nombres", valueForms.nombres);
+      formData.append("paterno", valueForms.paterno);
+      formData.append("materno", valueForms.materno);
+      formData.append("fecha_nacimiento",ano+'-'+mes+'-'+dia);
+      formData.append("telefono",valueForms.telefono);
+      formData.append("direccion",valueForms.direccion);
+      formData.append("correo",valueForms.correo);
+      const formDataJson:any = {};
+
+      formData.forEach((valor, clave) => {
+        formDataJson[clave] = valor;
+      });
+
       if ( this.titleActionForm === 'Grabar'){
-
-        const formData = new FormData();
-        const valueForms = this.formCliente.value;
-        
-        formData.append("rut", valueForms.rut);
-        formData.append("nombres", valueForms.nombres);
-        formData.append("paterno", valueForms.paterno);
-        formData.append("materno", valueForms.materno);
-        formData.append("fecha_nacimiento",ano+'-'+mes+'-'+dia);
-        formData.append("telefono",valueForms.telefono);
-        formData.append("direccion",valueForms.direccion);
-        formData.append("correo",valueForms.correo);
-        
-        const formDataJson:any = {};
-
-        formData.forEach((valor, clave) => {
-          formDataJson[clave] = valor;
-        });
-
         this.apiCleos.saveClientes(formDataJson).subscribe(data => {
           this.rowsClientes = [...data];
         });
 
       }else{
         
-        // this.formCliente.get('fecha_nacimiento')?.setValue( ano+'-'+mes+'-'+dia);
-        // console.log(this.formCliente.get('fecha_nacimiento')?.value);
-        // console.log(this.formCliente.value);
-
-        this.apiCleos.updateCliente(this.formCliente.value, this.idCliente).subscribe(data => {
+        this.apiCleos.updateCliente(formDataJson, this.idCliente).subscribe(data => {
           this.rowsClientes = [...data];
         });
       }
