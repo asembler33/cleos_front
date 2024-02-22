@@ -94,10 +94,12 @@ export class BoxComponent implements OnInit {
       allowOutsideClick: false
     }).then( (result) => {
       if (result.isConfirmed) {
+
+        
         const index = this.rowsBoxes.findIndex(fila => fila.id === row);
         this.rowsBoxes.splice(index, 1);
 
-        this.apiBox.deleteBox(row).subscribe(data => {
+        this.apiBox.deleteBox(row, this.idSucursalOrigen).subscribe(data => {
           this.rowsBoxes = [...this.rowsBoxes];
         });
 

@@ -18,8 +18,8 @@ export class BoxService {
     return this.http.post((environment as any).URL_API+'/box', data);
   }
 
-  public deleteBox(id:any): Observable<any> {
-    return this.http.delete((environment as any).URL_API+`/box/${id}`);
+  public deleteBox(idBox:any, idSucursal:any): Observable<any> {
+    return this.http.delete((environment as any).URL_API+`/box/${idBox}/${idSucursal}`);
   }
 
   public updateBox(data:any, id: any ): Observable<any> {
