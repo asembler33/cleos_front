@@ -43,8 +43,8 @@ export class ClientesComponent implements OnInit {
 
   constructor(private ngbCalendar: NgbCalendar, private modalService: NgbModal,private apiCleos: ClientesService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private dateAdapter: NgbDateAdapter<string>) {
     
-    this.fechaMinima = new NgbDate(1,1,1900);
-    // this.fechaMinima = {day:1, month: 1,year: 1900};
+    this.fechaMinima = new NgbDate(1900,1,1);
+    
     this.fechaSeleccionada = this.ngbCalendar.getToday();
   }
 

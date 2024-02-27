@@ -19,9 +19,9 @@
 
                             <ngx-datatable-column name="Acciones">
                                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                                    <i class="icono-mdi mdi mdi-pencil" (click)="editSucursal(row.id, content)"></i>&nbsp;
-                                    <i class="icono-mdi mdi mdi-delete-forever" (click)="deleteSucursal(row.id)"></i>&nbsp;
-                                    <i class="icono-mdi mdi mdi-login" (click)="openFormModalBox(row.id)"></i>&nbsp;
+                                    <i title="Editar Sucursal" class="icono-mdi mdi mdi-pencil" (click)="editSucursal(row.id, content)"></i>&nbsp;
+                                    <i title="Eliminar Sucursal" class="icono-mdi mdi mdi-delete-forever" (click)="deleteSucursal(row.id)"></i>&nbsp;
+                                    <i title="Admin. Box" class="icono-mdi mdi mdi-login" (click)="openFormModalBox(row.id)"></i>&nbsp;
                                     <!-- <button class="btn btn-danger" (click)="deleteSucursal(row.id)">Eliminar</button>&nbsp; -->
                                     <!-- <button class="btn btn-danger" (click)="openFormModalBox(row.id)">Box</button>&nbsp; -->
                                 </ng-template>
@@ -113,7 +113,7 @@
             </div>
             <div class="modal-footer">
                 <input type="hidden" #idSucursal name="idSucursal" [value]="idSucursal">
-                <button type="submit" class="btn btn-outline-dark" [disabled]="formSucursales.invalid">{{titleActionForm}}</button>
+                <button type="submit"  class="btn btn-outline-dark" [disabled]="formSucursales.invalid">{{titleActionForm}}</button>
             </div>
         </form>
     </ng-template>
