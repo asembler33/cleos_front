@@ -4,7 +4,7 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgbDateAdapter, NgbModal, NgbModalRef, NgbModalOptions, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbCalendar, NgbDatepickerModule, NgbDateStruct, NgbDatepickerI18n  } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDatepickerModule, NgbDateStruct, NgbDatepickerI18n , NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { modalOptions } from '../../../common/modal-options';
 import { ClientesService } from 'src/app/services/clientes.service';
 import Swal from 'sweetalert2/dist/sweetalert2.all.js';
@@ -41,12 +41,22 @@ export class ClientesComponent implements OnInit {
   fechaMinima: NgbDate;
   
 
-  constructor(private ngbCalendar: NgbCalendar, private modalService: NgbModal,private apiCleos: ClientesService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private dateAdapter: NgbDateAdapter<string>) {
+  constructor(private ngbCalendar: NgbCalendar, private modalService: NgbModal,private apiCleos: ClientesService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private dateAdapter: NgbDateAdapter<string>, config: NgbDatepickerConfig) {
     
     this.fechaMinima = new NgbDate(1900,1,1);
     
     this.fechaSeleccionada = this.ngbCalendar.getToday();
+
+    // config.dayTemplate = '{day}';
+    // config.monthTemplate = '{month}';
+    // config.yearTemplate = '{year}';
+    
+    config.displayMonths = 1;
+    config.navigation = 'select';
+    config.showWeekNumbers = false;
   }
+
+  
 
   ngOnInit(): void {
     
@@ -66,8 +76,20 @@ export class ClientesComponent implements OnInit {
       this.rowsClientes =  data;
     });
 
+  }
 
+  configurarDatePicker() {
+    // Configurar el formato del DatePicker
+    const config = {
+      dayTemplate: '{day}',
+      monthTemplate: '{month}',
+      yearTemplate: '{year}',
+      displayMonths: 2,
+      navigation: 'select',
+      showWeekNumbers: false,
+    };
 
+    return config;
   }
 
   openFormModalClientes(content: any){

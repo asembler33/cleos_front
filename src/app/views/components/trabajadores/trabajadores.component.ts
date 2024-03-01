@@ -2,11 +2,14 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDateAdapter, NgbModal, NgbModalOptions, NgbModalRef  } from '@ng-bootstrap/ng-bootstrap';
+import { modalOptions } from '../../../common/modal-options';
 import Swal from 'sweetalert2/dist/sweetalert2.all.js';
 import { UsersService } from '../../../services/users.service';
 import { ProfesionService } from '../../../services/profesion.service';
 import { RolesService } from '../../../services/roles.service';
 import { environment } from 'src/environments/environment';
+import {  ServiciosUsuariosClass } from './servicios-usuarios.class';
+
 
 interface Users {
   id: number;
@@ -23,7 +26,7 @@ interface Users {
 @Component({
   selector: 'app-trabajadores',
   templateUrl: './trabajadores.component.html',
-  styleUrls: ['./trabajadores.component.scss']
+  styleUrls: ['../../../app.component.scss']
 })
 
 
@@ -39,7 +42,8 @@ export class TrabajadoresComponent implements OnInit {
   formTrabajadores: FormGroup;
   formProfesion: FormGroup;
   titleActionForm: string;
-  modalRef: NgbModalRef;
+  modalRefTrabajadores: NgbModalRef;
+  modalRefProfesiones: NgbModalRef;
   idTrabajador: any;
   idProfesion: any;
   rolesRows: any = [];
@@ -48,6 +52,9 @@ export class TrabajadoresComponent implements OnInit {
   avatarImagen: File | null = null;
   avatar: string = "";
   mostrarMiniatura: boolean = false;
+  nombreUsuario: any;
+
+  claseServicio: ServiciosUsuariosClass = new ServiciosUsuariosClass();
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private apiCleos: UsersService, private apiProfesion: ProfesionService, private apiRoles:RolesService) { }
 
@@ -100,7 +107,7 @@ export class TrabajadoresComponent implements OnInit {
     this.title = 'Editar Trabajador';
     this.titleActionForm = 'Editar';
     this.mostrarMiniatura = true;
-		this.modalRef = this.modalService.open(content, this.modalOptions);
+		this.modalRefTrabajadores = this.modalService.open(content, this.modalOptions);
     let prestador:any = '';
 
     this.apiCleos.getUser(row).subscribe(response => {
@@ -121,6 +128,8 @@ export class TrabajadoresComponent implements OnInit {
       }else{
           prestador = "No";
       }
+
+      this.idTrabajador = response.id;
 
       this.formTrabajadores.get('prestadorServicio')?.setValue(prestador);
       this.avatar = (environment as any).URL_IMAGE +`${response.avatar}`;
@@ -181,9 +190,12 @@ export class TrabajadoresComponent implements OnInit {
         const index = this.rowsProfesiones.findIndex((fila: { id: any; }) => fila.id === row);
         this.rowsProfesiones.splice(index, 1);  
         this.apiProfesion.deleteProfesion(row).subscribe(data => {
-          console.log(data);
+          
           this.rowsProfesiones = [...this.rowsProfesiones];
         });
+
+        this.titleActionForm = "Grabar";
+        this.formProfesion.reset();
       }
 
     })
@@ -194,7 +206,7 @@ export class TrabajadoresComponent implements OnInit {
 
     this.title = 'Agregar Trabajador';
     this.titleActionForm = 'Grabar';
-		this.modalRef = this.modalService.open(content, { size: 'lg', ariaLabelledBy: 'modal-basic-title' });
+		this.modalRefTrabajadores = this.modalService.open(content, modalOptions);
 
   }
 
@@ -202,8 +214,20 @@ export class TrabajadoresComponent implements OnInit {
 
     this.title = 'Agregar Profesión';
     this.titleActionForm = 'Grabar';
-		this.modalRef = this.modalService.open(content, this.modalOptions);
+		this.modalRefProfesiones = this.modalService.open(content, this.modalOptions);
 
+  }
+
+  cerrarFormModalTrabajadores(){
+
+    this.formTrabajadores.reset();
+    this.modalRefTrabajadores.close();
+  }
+
+  cerrarFormModalProfesion(){
+
+    this.formTrabajadores.reset();
+    this.modalRefProfesiones.close();
   }
 
   saveTrabajador(): void{
@@ -211,7 +235,6 @@ export class TrabajadoresComponent implements OnInit {
     const valoresFormularioTrabajadores = this.formTrabajadores.value;
     const formData:any = new FormData();
 
-    
     formData.append("rut", valoresFormularioTrabajadores.rut);
     formData.append("usuario", valoresFormularioTrabajadores.usuario);
     formData.append("clave", valoresFormularioTrabajadores.clave);
@@ -227,12 +250,23 @@ export class TrabajadoresComponent implements OnInit {
     
     formData.append("avatar", this.avatarImagen as Blob);
 
-    console.log(this.formTrabajadores.valid);
-     
-    this.apiCleos.saveUser(formData).subscribe(data => {
+    if ( this.titleActionForm === 'Grabar'){
 
-        this.rowsTrabajador = [...data];
-    });
+      this.apiCleos.saveUser(formData).subscribe(data => {
+
+          this.rowsTrabajador = [...data];
+      });
+      
+    }else{
+      
+      formData.append("id", this.idTrabajador);
+      this.apiCleos.updateUser(this.idTrabajador, formData).subscribe(data => {
+          console.log(data);
+          this.rowsTrabajador = [...data];
+      });
+
+
+    }
 
   }
 
@@ -246,7 +280,7 @@ export class TrabajadoresComponent implements OnInit {
 
     }else{   
 
-      this.apiProfesion.updateProfesion(this.idProfesion,this.formProfesion.value).subscribe(data => {
+      this.apiProfesion.updateProfesion(this.formProfesion.value,this.idProfesion).subscribe(data => {
         this.rowsProfesiones = [...data];
       });
     }
@@ -256,12 +290,13 @@ export class TrabajadoresComponent implements OnInit {
   }
 
   onFileSelected(event:any): void {
-
     this.avatarImagen = event.target.files[0];
   }
  
   devuelveImagen(avatar:any):string {
-    
     return (environment as any).URL_IMAGE +`${avatar}`;
   }
+
+
+
 }

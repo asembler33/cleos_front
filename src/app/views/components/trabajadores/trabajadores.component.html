@@ -15,25 +15,24 @@
                     <div class="table-responsive">
                         <ngx-datatable class="bootstrap" [rows]="rowsTrabajador" [loadingIndicator]="loadingIndicator"
                             [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto">
-                            <ngx-datatable-column name="Imagen" prop="avatar">
+                            <ngx-datatable-column name="Imagen" prop="avatar" [width]=50>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <img [src]="devuelveImagen(row.avatar)" alt="Profile" style="-border-radius: 50%; width: 50px; height: 50px;"> 
+                                    <img [src]="devuelveImagen(row.avatar)" alt="Profile" style="-border-radius: 50%; width: 24px; height: 24px;"> 
                                   </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Usuario" prop="username"></ngx-datatable-column>
+                            <ngx-datatable-column name="Usuario" prop="username" [width]=100></ngx-datatable-column>
                             <ngx-datatable-column name="Nombre Completo">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     {{ row.nombres }} {{ row.apellido_paterno }} 
                                   </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Rol" prop="nombre_rol"></ngx-datatable-column>
-                            <ngx-datatable-column name="Correo" prop="email"></ngx-datatable-column>
+                            <ngx-datatable-column name="Rol" prop="nombre_rol" [width]=50></ngx-datatable-column>
+                            <ngx-datatable-column name="Correo" prop="email" [width]=150></ngx-datatable-column>
                             <ngx-datatable-column name="Acciones">
                                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                                    <button class="btn btn-primary"
-                                        (click)="editTrabajadores(row.id, lgModal)">Editar</button>&nbsp;
-                                    <button class="btn btn-danger"
-                                        (click)="deleteTrabajadores(row.id)">Eliminar</button>&nbsp;
+                                    <i title="Editar Trabajador" class="icono-mdi mdi mdi-pencil" (click)="editTrabajadores(row.id, lgModal)"></i>&nbsp;
+                                    <i title="Eliminar Trabajador" class="icono-mdi mdi mdi-delete-forever" (click)="deleteTrabajadores(row.id)"></i>&nbsp;
+                                    <!-- <i title="Asignar Especialidad" class="icono-mdi mdi mdi-login" (click)="openFormModalBox(row.id)"></i>&nbsp; -->
                                 </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>
@@ -45,7 +44,7 @@
     <ng-template #lgModal let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            <button type="button" class="btn-close" aria-label="Close" (click)="cerrarFormModalTrabajadores()"></button>
         </div>
         <form [formGroup]="formTrabajadores" (ngSubmit)="saveTrabajador()">
             <div class="modal-body">
@@ -53,7 +52,7 @@
                     <div class="col-md-6">
                         <label for="dateOfBirth">Imagen</label>
                         <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
-                        <img *ngIf="mostrarMiniatura" src="{{ avatar }}" style="-border-radius: 50%; width: 100px; height: 100px;">
+                        <img *ngIf="mostrarMiniatura" src="{{ avatar }}" style="-border-radius: 50%; width: 24px; height: 24px;">
                     </div>
                     <div class="col-md-6">
                         <label for="nombres">Firma</label>
@@ -63,88 +62,118 @@
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Usuario</label>
+                        <label for="dateOfBirth">Usuario <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="usuario" name="usuario">
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('usuario')?.hasError('required') && formTrabajadores.get('usuario')?.touched">
+                            El nombre de usuario es obligatorio.
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="nombres">Clave</label>
+                        <label for="nombres">Clave <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="password" class="form-control" formControlName="clave" name="clave">
+                        </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('clave')?.hasError('required') && formTrabajadores.get('clave')?.touched">
+                            La clave es obligatoria.
                         </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">RUT</label>
+                        <label for="dateOfBirth">RUT <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="rut" name="rut">
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="nombres">Nombres</label>
+                        <label for="nombres">Nombres <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="nombres" name="nombres">
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('nombres')?.hasError('required') && formTrabajadores.get('nombres')?.touched">
+                            El mombre es obligatorio.
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Ap. Paterno</label>
+                        <label for="dateOfBirth">Ap. Paterno <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="paterno" name="paterno">
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('paterno')?.hasError('required') && formTrabajadores.get('paterno')?.touched">
+                            El apellido paterno es obligatorio.
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Ap. Materno</label>
+                        <label for="dateOfBirth">Ap. Materno <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="materno" name="materno">
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('materno')?.hasError('required') && formTrabajadores.get('materno')?.touched">
+                            El apellido materno es obligatorio.
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Dirección</label>
+                        <label for="dateOfBirth">Dirección <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="direccion" name="direccion">
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('materno')?.hasError('required') && formTrabajadores.get('materno')?.touched">
+                            El apellido materno es obligatorio.
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Teléfono</label>
+                        <label for="dateOfBirth">Teléfono <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="telefono" name="telefono">
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('materno')?.hasError('required') && formTrabajadores.get('materno')?.touched">
+                            El apellido materno es obligatorio.
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Correo</label>
+                        <label for="dateOfBirth">Correo <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="correo" name="correo">
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('correo')?.hasError('required') && formTrabajadores.get('correo')?.touched">
+                            El correo es obligatorio.
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Rol</label>
+                        <label for="dateOfBirth">Rol <span class="asterisk">*</span></label>
                         <ng-select [items]="rolesRows" formControlName="rol" name="rol" bindLabel="nombre_rol"
                             bindValue="id" placeholder="Selecione Rol..." [searchable]="false">
                         </ng-select>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('rol')?.hasError('required') && formTrabajadores.get('rol')?.touched">
+                            El rol obligatorio.
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="dateOfBirth">Profesión</label>
+                        <label for="dateOfBirth">Profesión <span class="asterisk">*</span></label>
                         <ng-select [items]="arrayProfesiones" formControlName="profesiones" name="profesionesSelect"
                             bindLabel="profesion" bindValue="id" placeholder="Selecione profesión..." [searchable]="false">
                         </ng-select>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('profesiones')?.hasError('required') && formTrabajadores.get('profesiones')?.touched">
+                            La profesión obligatorio.
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="dateOfBirth">¿Prestador de servicio?</label>
+                        <label for="dateOfBirth">¿Prestador de servicio? <span class="asterisk">*</span></label>
                         <div class="input-group">
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" formControlName="prestadorServicio"
@@ -161,6 +190,9 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="text-danger mt-1" *ngIf="formTrabajadores.get('prestadorServicio')?.hasError('required') && formTrabajadores.get('prestadorServicio')?.touched">
+                            Debe elegir Si ó No en prestación de servicio.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -174,7 +206,7 @@
     <ng-template #content let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            <button type="button" class="btn-close" aria-label="Close" (click)="cerrarFormModalProfesion()"></button>
         </div>
         <form [formGroup]="formProfesion" (ngSubmit)="saveProfesion()">
             <div class="modal-body">
@@ -204,6 +236,43 @@
                         </ng-template>
                     </ngx-datatable-column>
                 </ngx-datatable>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="cerrarFormModalProfesion()"></button>
+        </div>
+        <form [formGroup]="claseServicio.formGuardarServiciosaUsuarios" (ngSubmit)="claseServicio.saveServiciosaUsuarios()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="dateOfBirth">Usuario</label>
+                        <div class="input-group">
+                            <label>{{ nombreUsuario }}</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-outline-dark"
+                            [disabled]="formProfesion.invalid">{{titleActionForm}}</button>
+                    </div>
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-outline-dark"
+                            [disabled]="formProfesion.invalid">{{titleActionForm}}</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <input type="hidden" #idProfesion name="idProfesion" [value]="idProfesion">
+                        <button type="submit" class="btn btn-outline-dark"
+                            [disabled]="formProfesion.invalid">{{titleActionForm}}</button>
+                    </div>
+                </div>
+
             </div>
         </form>
     </ng-template>
