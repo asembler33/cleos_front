@@ -9,6 +9,7 @@ import { ProfesionService } from '../../../services/profesion.service';
 import { RolesService } from '../../../services/roles.service';
 import { environment } from 'src/environments/environment';
 import {  ServiciosUsuariosClass } from './servicios-usuarios.class';
+import { ConectionCleosService } from 'src/app/services/conection-cleos.service';
 
 
 interface Users {
@@ -54,10 +55,10 @@ export class TrabajadoresComponent implements OnInit {
   mostrarMiniatura: boolean = false;
   nombreUsuario: any;
 
-  claseServicio: ServiciosUsuariosClass = new ServiciosUsuariosClass();
-
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private apiCleos: UsersService, private apiProfesion: ProfesionService, private apiRoles:RolesService) { }
-
+  
+  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private apiCleos: UsersService, private apiProfesion: ProfesionService, private apiRoles:RolesService, public especialidadService: ConectionCleosService) { }
+  
+  claseServicio: ServiciosUsuariosClass = new ServiciosUsuariosClass(this.formBuilder, this.modalService, this.especialidadService);
    modalOptions: NgbModalOptions = {
     backdrop: 'static', // Evita que el modal se cierre al hacer clic fuera de él
     keyboard: false,

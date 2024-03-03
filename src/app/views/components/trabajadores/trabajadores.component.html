@@ -32,7 +32,7 @@
                                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                                     <i title="Editar Trabajador" class="icono-mdi mdi mdi-pencil" (click)="editTrabajadores(row.id, lgModal)"></i>&nbsp;
                                     <i title="Eliminar Trabajador" class="icono-mdi mdi mdi-delete-forever" (click)="deleteTrabajadores(row.id)"></i>&nbsp;
-                                    <!-- <i title="Asignar Especialidad" class="icono-mdi mdi mdi-login" (click)="openFormModalBox(row.id)"></i>&nbsp; -->
+                                    <i title="Asignar Servicios" class="icono-mdi mdi mdi-arrow-down-right" (click)="claseServicio.formOpenModalServiciosTrabajadores(row.id, formModalServiciosTrabajadores)"></i>&nbsp;
                                 </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>
@@ -233,18 +233,20 @@
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <button type="button" class="btn btn-primary" (click)="editProfesion(row.id)">Editar</button>&nbsp;
                             <button type="button" class="btn btn-danger" (click)="deleteProfesion(row.id)">Eliminar</button>&nbsp;
+                            <button type="button" class="btn btn-danger" (click)="deleteProfesion(row.id)">Eliminar</button>&nbsp;
+                            
                         </ng-template>
                     </ngx-datatable-column>
                 </ngx-datatable>
             </div>
         </form>
     </ng-template>
-    <ng-template #content let-modal>
+    <ng-template #formModalServiciosTrabajadores let-modal>
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="cerrarFormModalProfesion()"></button>
+            <h4 class="modal-title" id="modal-basic-title">{{ claseServicio.titleForModalServiciosTrabajadores }}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="claseServicio.closeFormModalServiciosTrabajadores()"></button>
         </div>
-        <form [formGroup]="claseServicio.formGuardarServiciosaUsuarios" (ngSubmit)="claseServicio.saveServiciosaUsuarios()">
+        <form [formGroup]="claseServicio.formServiciosTrabajadores" (ngSubmit)="claseServicio.saveServiciosaUsuarios()">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -257,12 +259,11 @@
                 <br>
                 <div class="row">
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-outline-dark"
-                            [disabled]="formProfesion.invalid">{{titleActionForm}}</button>
+                        <ul class="list-group" *ngFor="let arrayEspecialidad of claseServicio.listaEspecialidades">
+                            <li class="list-group-item" (click)="claseServicio.viewServicio(arrayEspecialidad.id)">{{  arrayEspecialidad.especialidad  }}</li>
+                        </ul>
                     </div>
                     <div class="col-md-8">
-                        <button type="submit" class="btn btn-outline-dark"
-                            [disabled]="formProfesion.invalid">{{titleActionForm}}</button>
                     </div>
                 </div>
                 <div class="row">
