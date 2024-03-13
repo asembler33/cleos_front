@@ -51,9 +51,9 @@ export class ConectionCleosService {
     return this.http.get((environment as any).URL_API+`/servicios/${id}`);
   }
 
-  public listServiciosEspecialidad(id: any): Observable<any> {
-    return this.http.get((environment as any).URL_API+`/servicios/listaServiciosEspecialidad/${id}`);
-  }
+  // public listServiciosEspecialidad(id: any): Observable<any> {
+  //   return this.http.get((environment as any).URL_API+`/servicios/listaServiciosEspecialidad/${id}`);
+  // }
 
   public listDuracion(): Observable<any> {
     return this.http.get((environment as any).URL_API+`/duracion/lista-duraciones`);

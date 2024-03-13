@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import { ColumnMode, SelectionType  } from '@swimlane/ngx-datatable';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDateAdapter, NgbModal, NgbModalOptions, NgbModalRef  } from '@ng-bootstrap/ng-bootstrap';
 import { modalOptions } from '../../../common/modal-options';
@@ -38,6 +38,8 @@ export class TrabajadoresComponent implements OnInit {
   loadingIndicator = true;
   reorderable = true;
   ColumnMode = ColumnMode;
+  SelectionType = SelectionType;
+
   columns:any[]
   title:string;
   formTrabajadores: FormGroup;
@@ -54,7 +56,7 @@ export class TrabajadoresComponent implements OnInit {
   avatar: string = "";
   mostrarMiniatura: boolean = false;
   nombreUsuario: any;
-
+  selected = [];
   
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private apiCleos: UsersService, private apiProfesion: ProfesionService, private apiRoles:RolesService, public especialidadService: ConectionCleosService) { }
   
@@ -298,6 +300,15 @@ export class TrabajadoresComponent implements OnInit {
     return (environment as any).URL_IMAGE +`${avatar}`;
   }
 
+  onSelect({ }) {
+    
+    this.selected.splice(0, this.selected.length);
+    
+  }
+
+  onActivate(event: any) {
+    console.log('Activate Event', event);
+  }
 
 
 }

@@ -15,6 +15,7 @@ export class ServiciosUsuariosClass  {
     modalRefServiciosTrabajadores: NgbModalRef;
     titleForModalServiciosTrabajadores: String;
     listaEspecialidades: any[];
+    arrayServicioTrabajadores: any[];
 
     constructor(private formBuilder: FormBuilder, private modalService: NgbModal, public especialidadService: ConectionCleosService){
         this.formServiciosTrabajadores = this.formBuilder.group({});
@@ -32,19 +33,18 @@ export class ServiciosUsuariosClass  {
             console.log(data);
             this.listaEspecialidades = [...data];
         });
+
+        // this.especialidadService.listServiciosEspecialidad(idEspecialidad).subscribe(row => {
+        //     console.log(row);
+        //     this.arrayServicioTrabajadores = row;
+        // });
+
     }
 
     closeFormModalServiciosTrabajadores():void{
 
     }
 
-    viewServicio($idEspecialidad: any):void{
-
-        this.especialidadService.listServiciosEspecialidad($idEspecialidad).subscribe(row => {
-            console.log(row);
-        });
-
-    }
 
 
 }

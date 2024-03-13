@@ -234,7 +234,6 @@
                             <button type="button" class="btn btn-primary" (click)="editProfesion(row.id)">Editar</button>&nbsp;
                             <button type="button" class="btn btn-danger" (click)="deleteProfesion(row.id)">Eliminar</button>&nbsp;
                             <button type="button" class="btn btn-danger" (click)="deleteProfesion(row.id)">Eliminar</button>&nbsp;
-                            
                         </ng-template>
                     </ngx-datatable-column>
                 </ngx-datatable>
@@ -250,6 +249,38 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
+                        <ngx-datatable class="bootstrap" [rows]="claseServicio.arrayServicioTrabajadores" [loadingIndicator]="loadingIndicator" 
+                        [selectionType]="SelectionType.checkbox"
+                        [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10" rowHeight="auto" (activate)="onActivate($event)"
+                        (select)="onSelect($event)">
+                            <ngx-datatable-column name="Profesión" prop="profesion"></ngx-datatable-column>
+                            <ngx-datatable-column
+            [width]="30"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [draggable]="false"
+            [resizeable]="false"
+          >
+            <ng-template
+              ngx-datatable-header-template
+              let-value="value"
+              let-allRowsSelected="allRowsSelected"
+              let-selectFn="selectFn"
+            >
+              <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+            </ng-template>
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-isSelected="isSelected"
+              let-onCheckboxChangeFn="onCheckboxChangeFn"
+            >
+              <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+            </ng-template>
+          </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                    <div class="col-md-6">
                         <label for="dateOfBirth">Usuario</label>
                         <div class="input-group">
                             <label>{{ nombreUsuario }}</label>
@@ -259,9 +290,9 @@
                 <br>
                 <div class="row">
                     <div class="col-md-4">
-                        <ul class="list-group" *ngFor="let arrayEspecialidad of claseServicio.listaEspecialidades">
+                        <!-- <ul class="list-group" *ngFor="let arrayEspecialidad of claseServicio.listaEspecialidades">
                             <li class="list-group-item" (click)="claseServicio.viewServicio(arrayEspecialidad.id)">{{  arrayEspecialidad.especialidad  }}</li>
-                        </ul>
+                        </ul> -->
                     </div>
                     <div class="col-md-8">
                     </div>
